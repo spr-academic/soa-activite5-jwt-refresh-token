@@ -1,0 +1,388 @@
+{
+  "info": {
+    "name": "SOA - Activité 5 - JWT et Refresh Token",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Sayed Touati - ESPRIT 2026-2027. Exécuter dans l’ordre sur un service fraîchement démarré."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/soa-activite5-jwt-refresh-token/rest"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "oldRefreshToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Sans jeton",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/options"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 401\", function () { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Connexion",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/authentication",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"I001\", \"password\": \"pwd001\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", function () { pm.response.to.have.status(200); });",
+              "const pair = pm.response.json();",
+              "pm.test(\"Couple de jetons et durée\", function () { pm.expect(pair.tokenType).to.eql(\"Bearer\"); pm.expect(pair.expiresIn).to.eql(900); pm.expect(pair.accessToken).to.be.a(\"string\").and.not.empty; pm.expect(pair.refreshToken).to.be.a(\"string\").and.not.empty; });",
+              "pm.collectionVariables.set(\"accessToken\", pair.accessToken);",
+              "pm.collectionVariables.set(\"refreshToken\", pair.refreshToken);",
+              "pm.collectionVariables.set(\"oldRefreshToken\", pair.refreshToken);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Lire les options",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": "{{baseUrl}}/options"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Créer une option",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/options",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"codeOption\": 6, \"libelle\": \"Robotique\", \"domaine\": \"Informatique\", \"responsable\": \"Responsable Robotique\", \"credits\": 30, \"semestre\": 1, \"capacite\": 25}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 201\", function () { pm.response.to.have.status(201); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Lire les étudiants",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": "{{baseUrl}}/etudiants"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Renouveler le couple",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": "{{baseUrl}}/authentication/refresh",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "refreshToken",
+              "value": "{{refreshToken}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", function () { pm.response.to.have.status(200); });",
+              "const pair = pm.response.json();",
+              "pm.test(\"Couple de jetons et durée\", function () { pm.expect(pair.tokenType).to.eql(\"Bearer\"); pm.expect(pair.expiresIn).to.eql(900); pm.expect(pair.accessToken).to.be.a(\"string\").and.not.empty; pm.expect(pair.refreshToken).to.be.a(\"string\").and.not.empty; });",
+              "pm.collectionVariables.set(\"accessToken\", pair.accessToken);",
+              "pm.collectionVariables.set(\"refreshToken\", pair.refreshToken);",
+              "pm.test(\"Rotation\", function () { pm.expect(pair.refreshToken).not.to.eql(pm.collectionVariables.get(\"oldRefreshToken\")); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Nouvel access token",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": "{{baseUrl}}/options"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Rejeu ancien refresh token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": "{{baseUrl}}/authentication/refresh",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "refreshToken",
+              "value": "{{oldRefreshToken}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 401\", function () { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Refresh token interdit comme access token",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{refreshToken}}",
+            "type": "text"
+          }
+        ],
+        "url": "{{baseUrl}}/options"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 401\", function () { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - Déconnexion",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": "{{baseUrl}}/authentication/logout",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "refreshToken",
+              "value": "{{refreshToken}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 204\", function () { pm.response.to.have.status(204); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - Refresh token révoqué",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": "{{baseUrl}}/authentication/refresh",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "refreshToken",
+              "value": "{{refreshToken}}",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 401\", function () { pm.response.to.have.status(401); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 - Access token encore valide après déconnexion",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": "{{baseUrl}}/options"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Statut 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

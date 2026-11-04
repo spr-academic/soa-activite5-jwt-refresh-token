@@ -1,0 +1,40 @@
+# Copier les jetons reçus dans les variables ci-dessous avant les appels protégés.
+# Pour un scénario avec mémorisation automatique, utiliser la collection Postman.
+@base = http://localhost:8080/soa-activite5-jwt-refresh-token/rest
+@accessToken = REMPLACER_PAR_ACCESS_TOKEN
+@refreshToken = REMPLACER_PAR_REFRESH_TOKEN
+
+### Sans jeton : 401
+GET {{base}}/options
+
+### Connexion : 200, expiresIn = 900
+POST {{base}}/authentication
+Content-Type: application/json
+
+{"username":"I001","password":"pwd001"}
+
+### Ressource protégée : 200
+GET {{base}}/options
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Étudiants : 200
+GET {{base}}/etudiants
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Rafraîchir : 200, puis remplacer les deux variables par les nouvelles valeurs
+POST {{base}}/authentication/refresh
+Content-Type: application/x-www-form-urlencoded
+
+refreshToken={{refreshToken}}
+
+### Refresh token comme access token : 401
+GET {{base}}/options
+Authorization: Bearer {{refreshToken}}
+
+### Déconnexion : 204 ; réutiliser ensuite ce refresh token renvoie 401
+POST {{base}}/authentication/logout
+Content-Type: application/x-www-form-urlencoded
+
+refreshToken={{refreshToken}}
