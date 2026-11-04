@@ -15,13 +15,14 @@
     <junit.version>5.10.3</junit.version>
   </properties>
   <dependencies>
+    <dependency><groupId>javax.inject</groupId><artifactId>javax.inject</artifactId><version>1</version></dependency>
     <dependency><groupId>io.jsonwebtoken</groupId><artifactId>jjwt</artifactId><version>0.6.0</version>
       <exclusions><exclusion><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId></exclusion></exclusions>
     </dependency>
     <dependency><groupId>org.glassfish.jersey.core</groupId><artifactId>jersey-server</artifactId><version>${jersey.version}</version></dependency>
     <dependency><groupId>org.glassfish.jersey.containers</groupId><artifactId>jersey-container-servlet</artifactId><version>${jersey.version}</version></dependency>
     <dependency><groupId>org.glassfish.jersey.inject</groupId><artifactId>jersey-hk2</artifactId><version>${jersey.version}</version>
-      <exclusions><exclusion><groupId>javax.inject</groupId><artifactId>javax.inject</artifactId></exclusion></exclusions>
+      <exclusions><exclusion><groupId>org.glassfish.hk2.external</groupId><artifactId>javax.inject</artifactId></exclusion></exclusions>
     </dependency>
     <dependency><groupId>org.glassfish.jersey.media</groupId><artifactId>jersey-media-json-jackson</artifactId><version>${jersey.version}</version></dependency>
     <dependency><groupId>org.glassfish.jersey.media</groupId><artifactId>jersey-media-jaxb</artifactId><version>${jersey.version}</version></dependency>

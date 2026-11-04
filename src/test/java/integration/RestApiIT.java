@@ -148,6 +148,11 @@ class RestApiIT {
         assertEquals(200, authorized("GET", "/options", null, access).status);
         assertEquals(200, authorized("GET", "/etudiants", null, access).status);
         assertEquals(200, authorized("GET", "/etudiants/I001", null, access).status);
+        Reply xml = call("GET", "/etudiants/option?codeOption=1", null,
+                "application/xml", "application/json", "Bearer " + access);
+        assertEquals(200, xml.status);
+        assertEquals("etudiants", parseXml(xml.body).getDocumentElement().getTagName());
+        assertEquals(0, parseXml(xml.body).getElementsByTagName("option").getLength());
     }
 
     @Test void authorizedCreationReturns201AndPersists() throws Exception {
