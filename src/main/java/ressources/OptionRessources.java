@@ -1,5 +1,7 @@
 package ressources;
 
+import filter.Secured;
+
 
 import entities.Option;
 import metiers.OptionBusiness;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Secured
 @Path("/options")
 public class OptionRessources {
 

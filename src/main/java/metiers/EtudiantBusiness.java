@@ -8,10 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class EtudiantBusiness {
-    private static List<Etudiant> etudiants;
-    private OptionBusiness optionBusiness = new OptionBusiness();
+    private static final List<Etudiant> etudiants;
+    private static final OptionBusiness optionBusiness = new OptionBusiness();
 
-    public EtudiantBusiness() {
+    static {
         etudiants = new ArrayList<Etudiant>();
         // Initialisation avec quelques données de test
         etudiants.add(new Etudiant("I001", "Doe", "Jean", optionBusiness.getOptionByCode(1), 2023, "jean.doe@example.com"));

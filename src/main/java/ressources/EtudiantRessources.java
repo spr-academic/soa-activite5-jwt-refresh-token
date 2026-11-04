@@ -1,5 +1,7 @@
 package ressources;
 
+import filter.Secured;
+
 
 import entities.Etudiant;
 import entities.EtudiantList;
@@ -12,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 
+@Secured
 @Path("etudiants")
 public class EtudiantRessources {
     public static EtudiantBusiness etudiantMetier = new EtudiantBusiness();
