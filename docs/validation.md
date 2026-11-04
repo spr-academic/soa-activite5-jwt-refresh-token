@@ -33,3 +33,7 @@ Le test d’expiration utilise un JWT déjà expiré, correctement signé avec l
 Le [rapport XML](rapport-tests.xml) contient les résultats individuels. Les propriétés de l’environnement et les journaux serveur sont omis de cette copie ; les rapports complets sont régénérés dans `target/failsafe-reports/`.
 
 La collection Postman est fournie pour reproduire le scénario de démonstration. Elle n’a pas été exécutée dans l’interface Postman lors de cette validation. L’import graphique dans IntelliJ et le déploiement dans Tomcat n’ont pas été exécutés.
+
+## Vérification du lancement
+
+Le 4 novembre 2026, le scénario a aussi été exécuté sur le service lancé avec `mvn jetty:run-war` : refus sans jeton, connexion, accès autorisé, rotation, refus du rejeu, déconnexion et refus du refresh token révoqué. Les 19 tests couvrent aussi la lecture XML autorisée, sans objet option dans cette représentation.

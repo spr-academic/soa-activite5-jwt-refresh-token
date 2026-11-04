@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
-<testsuite name="integration.RestApiIT" time="1.179" tests="19" errors="0" skipped="0" failures="0">
-  <testcase name="tokenResponsesDisableCaching" classname="integration.RestApiIT" time="0.186" />
-  <testcase name="logoutIsIdempotentForInvalidAndRevokedTokens" classname="integration.RestApiIT" time="0.04" />
+<testsuite name="integration.RestApiIT" time="1.308" tests="19" errors="0" skipped="0" failures="0">
+  <testcase name="tokenResponsesDisableCaching" classname="integration.RestApiIT" time="0.143" />
+  <testcase name="logoutIsIdempotentForInvalidAndRevokedTokens" classname="integration.RestApiIT" time="0.041" />
   <testcase name="invalidCredentialsAreForbidden" classname="integration.RestApiIT" time="0.014" />
-  <testcase name="loginReturnsPairAndLifetimeInSeconds" classname="integration.RestApiIT" time="0.004" />
-  <testcase name="expiredAccessTokenIsUnauthorized" classname="integration.RestApiIT" time="0.025" />
+  <testcase name="loginReturnsPairAndLifetimeInSeconds" classname="integration.RestApiIT" time="0.006" />
+  <testcase name="expiredAccessTokenIsUnauthorized" classname="integration.RestApiIT" time="0.026" />
   <testcase name="logoutRevokesRefreshButKeepsAccessUntilExpiration" classname="integration.RestApiIT" time="0.018" />
-  <testcase name="concurrentRefreshOnlyAllowsOneConsumer" classname="integration.RestApiIT" time="0.011" />
-  <testcase name="wrongSignatureAndIssuerAreUnauthorized" classname="integration.RestApiIT" time="0.009" />
-  <testcase name="refreshRotatesBothTokensAndRejectsReplay" classname="integration.RestApiIT" time="0.018" />
-  <testcase name="malformedLoginJsonIsBadRequest" classname="integration.RestApiIT" time="0.004" />
-  <testcase name="tokenClaimsMatchSubjectIssuerTypeAndDurations" classname="integration.RestApiIT" time="0.006" />
+  <testcase name="concurrentRefreshOnlyAllowsOneConsumer" classname="integration.RestApiIT" time="0.01" />
+  <testcase name="wrongSignatureAndIssuerAreUnauthorized" classname="integration.RestApiIT" time="0.008" />
+  <testcase name="refreshRotatesBothTokensAndRejectsReplay" classname="integration.RestApiIT" time="0.016" />
+  <testcase name="malformedLoginJsonIsBadRequest" classname="integration.RestApiIT" time="0.006" />
+  <testcase name="tokenClaimsMatchSubjectIssuerTypeAndDurations" classname="integration.RestApiIT" time="0.007" />
   <testcase name="malformedAuthorizationIsUnauthorized" classname="integration.RestApiIT" time="0.007" />
-  <testcase name="authorizedCreationReturns201AndPersists" classname="integration.RestApiIT" time="0.039" />
+  <testcase name="authorizedCreationReturns201AndPersists" classname="integration.RestApiIT" time="0.035" />
   <testcase name="refreshTokenCannotAccessBusinessResources" classname="integration.RestApiIT" time="0.007" />
-  <testcase name="accessTokenCannotBeUsedForRefresh" classname="integration.RestApiIT" time="0.007" />
-  <testcase name="missingOrMalformedRefreshTokenIsUnauthorized" classname="integration.RestApiIT" time="0.005" />
-  <testcase name="validAccessTokenReadsBothResources" classname="integration.RestApiIT" time="0.01" />
+  <testcase name="accessTokenCannotBeUsedForRefresh" classname="integration.RestApiIT" time="0.008" />
+  <testcase name="missingOrMalformedRefreshTokenIsUnauthorized" classname="integration.RestApiIT" time="0.006" />
+  <testcase name="validAccessTokenReadsBothResources" classname="integration.RestApiIT" time="0.101" />
   <testcase name="unknownAndExpiredRefreshTokensAreUnauthorized" classname="integration.RestApiIT" time="0.008" />
-  <testcase name="allBusinessRoutesRequireAccessToken" classname="integration.RestApiIT" time="0.017" />
+  <testcase name="allBusinessRoutesRequireAccessToken" classname="integration.RestApiIT" time="0.02" />
 </testsuite>
